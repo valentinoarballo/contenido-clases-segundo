@@ -34,7 +34,7 @@ if (nombre === "") {
   total = total + 500
   console.log("Total con recargo: $" + total)
 
-  console.log(`Hola ${nombre}!!, su compra de ${cantidadEntradas} entradas por $${precioEntrada} c/u ha sido procesada. El total a pagar es: $${total}`)
+  console.log(`Hola ${nombre}!, su compra de ${cantidadEntradas} entradas por $${precioEntrada} c/u ha sido procesada. El total a pagar es: $${total}`)
 
 }
 
