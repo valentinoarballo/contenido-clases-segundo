@@ -1,156 +1,41 @@
-const productos = [
-  {
-    id: 1,
-    nombre: "Mouse 6000dpi",
-    marca: "Logitech",
-    categoria: "Perifericos",
-    precio: 11000,
-    coste: 10000,
-    stock: 10,
-    imagen: "https://http2.mlstatic.com/D_NQ_NP_2X_661769-MLA48244164428_112021-F.webp",
-    descripcion: "Mouse gamer con alta precisión y diseño ergonómico."
-  },
-  {
-    id: 2,
-    nombre: "Teclado Mecánico",
-    marca: "Samsung",
-    categoria: "Perifericos",
-    precio: 19000,
-    coste: 18000,
-    stock: 5,
-    imagen: "https://http2.mlstatic.com/D_NQ_NP_2X_661769-MLA48244164428_112021-F.webp",
-    descripcion: "Teclado mecánico con switches de alta calidad y retroiluminación."
-  },
-  {
-    id: 3,
-    nombre: "Monitor 24 pulgadas",
-    marca: "Logitech",
-    categoria: "Monitores",
-    precio: 35000,
-    coste: 30000,
-    stock: 3,
-    imagen: "https://http2.mlstatic.com/D_NQ_NP_2X_661769-MLA48244164428_112021-F.webp",
-    descripcion: "Monitor de alta resolución con tecnología IPS y diseño moderno."
-  },
-  {
-    id: 4,
-    nombre: "Monitor 26 pulgadas",
-    marca: "Samsung",
-    categoria: "Monitores",
-    precio: 45000,
-    coste: 40000,
-    stock: 2,
-    imagen: "https://http2.mlstatic.com/D_NQ_NP_2X_661769-MLA48244164428_112021-F.webp",
-    descripcion: "Monitor de alta resolución con tecnología IPS y diseño moderno."
-  },
-  {
-    id: 5,
-    nombre: "Procesor Intel i7",
-    marca: "Intel",
-    categoria: "Componentes",
-    precio: 55000,
-    coste: 45000,
-    stock: 1,
-    imagen: "https://http2.mlstatic.com/D_NQ_NP_2X_661769-MLA48244164428_112021-F.webp",
-    descripcion: "Procesor de alto rendimiento para tareas exigentes."
-  },
-  {
-    id: 6,
-    nombre: "RAM 16GB DDR4",
-    marca: "Kingston",
-    categoria: "Componentes",
-    precio: 55000,
-    coste: 25000,
-    stock: 5,
-    imagen: "https://http2.mlstatic.com/D_NQ_NP_2X_661769-MLA48244164428_112021-F.webp",
-    descripcion: "Memoria RAM de alta velocidad para mejorar el rendimiento del sistema."
-  },
-   {
-    id: 7,
-    nombre: "Auriculares Gamer",
-    marca: "Logitech",
-    categoria: "Perifericos",
-    precio: 3250,
-    coste: 2000,
-    stock: 10,
-    imagen: "https://http2.mlstatic.com/D_NQ_NP_2X_661769-MLA48244164428_112021-F.webp",
-    descripcion: "Auriculares gamer con alta calidad de sonido y diseño ergonómico."
-  },
-]
+const taskInput = document.getElementById('taskInput');
+const addTaskButton = document.getElementById("addTaskButton");
+const taskList = document.getElementById('taskList');
 
-function calcularGanancia(producto) {
-  const ganancia = producto.precio - producto.coste
-  return ganancia
-}
+addTaskButton.addEventListener("click", agregarTarea);
 
+function agregarTarea() {
+  const taskText = taskInput.value.trim();
+  if (taskText === "") return;
 
-const calcularGananciaArrow = (producto) => {
-  return producto.precio - producto.coste
-} // this es una función flecha sin nombre, también conocida como función anónima. No tiene un cuerpo definido, por lo que no realiza ninguna acción{return .
+  const tarea = document.createElement("li");
+  tarea.classList.add("bg-zinc-800", "text-white", "p-2", "rounded", "mb-2", "flex", "justify-between", "items-center");
 
+  const span = document.createElement("span");
+  span.textContent = taskText;
 
-const obtenerResumen = (producto) => {
-  return `Nombre: ${producto.nombre}, categoria: ${producto.categoria}, ganancia: ${calcularGanancia(producto)}`;
-}
+  span.classList.add("cursor-pointer");
 
-const clasificarPorGanancia = (ganancia) => {
-  if (ganancia < 1500) return "Ganancia baja"
-  if (ganancia <= 5000) return "Ganancia media"
-  return "Ganancia alta"
-}
-
-const clasificarPorGananciaTernario = (ganancia) => {
-  return ganancia < 1500
-    ? "Ganancia baja"
-    : ganancia <= 5000
-      ? "Ganancia media"
-      : "Ganancia alta"
-}
-
-
-
-const agruparPorCategoria = (productos) => {
-  const resultado = {}
-
-  productos.forEach(producto => {
-    if (!resultado[producto.categoria]) {
-      resultado[producto.categoria] = {
-        categoria: producto.categoria,
-        cantidadProductos: 0,
-        gananciaTotal: 0
-      };
-    }
-
-    resultado[producto.categoria].cantidadProductos++;
-    resultado[producto.categoria].gananciaTotal += calcularGanancia(producto);
+  span.addEventListener("click", () => {
+    span.classList.toggle("line-through");
   })
 
-  return resultado;
-}
+  const btnDelete = document.createElement("button");
 
+  btnDelete.classList.add("text-red-500", "hover:text-red-700", "focus:outline-none");
 
+  btnDelete.innerHTML = `<svg width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+</svg>`;
 
-const agruparPor = (array, clave) => {
-  const resultado = {};
-
-  array.forEach((item) => {
-    const valorClave = item[clave];
-
-    if (!resultado[valorClave])
-      resultado[valorClave] = {
-        [clave]: valorClave,
-        cantidadProductos: 0,
-        gananciaTotal: 0
-      };
-
-    resultado[valorClave].cantidadProductos++;
-    resultado[valorClave].gananciaTotal += calcularGanancia(item);
+  btnDelete.addEventListener("click", () => {
+    tarea.remove();
   });
 
-  return resultado;
-}
+  
+  tarea.appendChild(span);
 
-const resultado = agruparPor(productos, "categoria");
-const resultadoM = agruparPor(productos, "marca");
-console.log(resultado);
-console.log(resultadoM);
+  tarea.appendChild(btnDelete);
+
+  taskList.appendChild(tarea);
+}
