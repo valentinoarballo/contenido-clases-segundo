@@ -4,49 +4,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>To Do List</title>
+  <title>vinyl vault</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
 </head>
 
-<body class="bg-zinc-950 text-white flex justify-center pt-10 min-h-screen">
-  <div class="w-full max-w-md">
-    <h1 class="text-4xl font-bold mb-2">To-Do List</h1>
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-900 
+min-h-screen text-white">
 
-    <form id="taskForm" class="flex gap-2 mb-2">
-      <input type="text" id="taskInput" class="flex-1 p-2 rounded bg-zinc-800 text-white" placeholder="Add a new task...">
+  <nav class="border-b border-slate-800 bg-slate-900/40 backdrop-blur-md py-4">
+    <div class="max-w-7xl mx-auto flex justify-between">
+      <span class="text-xl font-bold text-cyan-400 font-mono tracking-wider">VINYL.VAULT</span>
+      <div class="flex gap-4">
+        <button id="nav-search-btn" class="text-sm font-medium 
+        transition-colors duration-300 text-cyan-400 
+        px-2 py-1 border-b-2 border-cyan-400">
+          Explorar
+        </button>
+        <button id="nav-profile-btn" class="text-sm font-medium 
+        transition-colors duration-300  
+        px-2 py-1">
+          Mi Perfil
+        </button>
+      </div>
+    </div>
+  </nav>
 
-      <select id="prioritySelect" class="p-2 rounded bg-zinc-800 text-white">
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
+  <div class="container mx-auto px-6 py-12 max-w-7xl">
 
-      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add</button>
-    </form>
+    <div id="search-section" class="block">
+      <header class="text-center relative">
 
+        <div class="absolute -top-10 left-1/2 -translate-1/2 bg-cyan-500/10 w-72 h-72 rounded-full blur-[120px]">
+        </div>
+        <h1
+          class="text-5xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-400 via-teal-200 to-indigo-400 bg-clip-text text-transparent">
+          Vinyl Vault
+        </h1>
+        <p class="mt-4 text-slate-400 text-lg mx-auto font-light">
+          Powered by Discogs API.
+        </p>
+      </header>
 
-    <!-- Search -->
-    <input 
-      type="text" 
-      id="searchInput" 
-      class="w-full p-2 mb-4 rounded bg-zinc-800 text-white" 
-      placeholder="Search tasks..."
-    >
+      <div class="max-w-xl mx-auto mb-16 mt-16">
+        <div class="flex items-center gap-2">
+          <input id="search-input" type="text" placeholder="Buscar un album..."
+            class="w-full bg-transparent px-4 py-2 text-white placeholder-slate-500 focus:outline-none">
 
-    <!-- Filters -->
-
-    <div class="flex gap-2 mb-4">
-      <button data-filter="all" class="bg-zinc-500 hover:bg-zinc-700 text-white font-bold py-2 px-4 rounded filter-btn">All</button>
-      <button data-filter="completed" class="bg-zinc-500 hover:bg-zinc-700 text-white font-bold py-2 px-4 rounded filter-btn">Completed</button>
-      <button data-filter="pending" class="bg-zinc-500 hover:bg-zinc-700 text-white font-bold py-2 px-4 rounded filter-btn">Pending</button>
+          <button id="search-btn" class="bg-gradient-to-r from-cyan-500 to-teal-500 px-6 py-3 rounded-xl
+          hover:from-cyan-400 hover:to-teal-400 transition-all duration-300 shadow-lg shadow-cyan-500/20 
+          active:scale-95">
+            Buscar
+          </button>
+        </div>
+      </div>
     </div>
 
-    <ul id="taskList">
-
-    </ul>
-
+    <div id="profile-section" class="hidden mb-12">
+      <div class="p-8 bg-slate-900/40 backdrop-blur-md border border-slate-800 rounded">
+        <h1 class="text-3xl font-bold">
+          Colección de @valentino
+        </h1>
+        <p id="profile-count" class="text-cyan-400 font-mono mt-1 text-sm">
+          Cargando....
+        </p>
+      </div>
+    </div>
   </div>
+
+  <main id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+  </main>
+
   <script src="main.js"></script>
 </body>
 
