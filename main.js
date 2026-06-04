@@ -39,13 +39,13 @@ async function searchMasters(query) {
 
   try {
     const response = await fetch(url, {
-      headers: { "Authorization": `Discogs token=${TOKEN}` }
+      headers: { "Authorization": `Discogs token=${TOKEN}` },
     })
     if (!response.ok) throw new Error("Error en la API")
 
     const data = await response.json()
 
-    renderAlbums(data)
+    renderAlbums(data.results)
 
   } catch (err) {
     console.log("error!!!!:" + err)
@@ -87,16 +87,16 @@ function renderAlbums(albums) {
 
   const currentFavs = getFavorites()
 
-  albums.results.forEach(album => {
+  albums.forEach(album => {
 
     let artist = "Artista desconocido"
     let albumTitle = album.title || "Album desconocido"
 
-    if (album.title.includes(" - ")) {
-      const parts = album.title.split(" - ")
+    if (album.title.includes(" - ")) { /// "daft punk - homework"
+      const parts = album.title.split(" - ") /// ["daft punk", "homework"]
       artist = parts[0]
       albumTitle = parts[1]
-    } else if (album.artists && albums.artists[0]) {
+    } else if (album.artists && album.artists[0]) {
       artist = album.artists[0].name
     }
 
@@ -131,7 +131,6 @@ function renderAlbums(albums) {
 
       </div>
 
-
       <div class="mt-5 space-y-1">
         <p class="text-xs font--semibold text-cyan-400 tracking-wider uppercase font-mono" >
          ${artist}
@@ -140,28 +139,70 @@ function renderAlbums(albums) {
          ${albumTitle}
         </p>
       </div>
-
       </div>
     `
 
+    const favBtn = card.querySelector(".fav-btn")
+    favBtn.addEventListener("click", (e) => {
+      e.stopPropagation()
+
+      const id = favBtn.getAttribute("data-id")
+      toggleFavorite(id)
+
+      const svg = favBtn.querySelector("svg")
+      if (favBtn.classList.contains("bg-rose-500/20")) {
+        favBtn.className = (`fav-btn absolute top-3 right-3 p-2.5 rounded-2xl backdrop-blur-lg transition-all duration-300 border focus:outline-none bg-slate-900/60 border-slate-700 text-slate-400 hover:text-white hover:border-slate-500`)
+        svg.setAttribute("fill", "none")
+
+        if (SEARCH_SECTION.classList.contains("hidden")) {
+          card.remove()
+        }
+
+      } else {
+        favBtn.className = (`fav-btn absolute top-3 right-3 p-2.5 rounded-2xl backdrop-blur-lg transition-all duration-300 border focus:outline-none bg-rose-500/20 border-rose-500 text-rose-500 shadow-lg shadow-rose-500/200`)
+        svg.setAttribute("fill", "currentColor")
+      }
+    })
 
     GALLERY.appendChild(card)
   });
 
-
-
-
-
 }
 
+NAV_PROFILE_BTN.addEventListener("click", () => {
+  NAV_PROFILE_BTN.className = "text-sm font-semibold text-cyan-400 border-b-2 border-cyan-400"
+  NAV_SEARCH_BTN.className = "text-sm font-md text-slate-400"
+
+  SEARCH_SECTION.classList.replace("block", "hidden")
+  PROFILE_SECTION.classList.replace("hidden", "block")
+
+  loadProfileFavorites()
+})
+
+NAV_SEARCH_BTN.addEventListener("click", () => {
+  NAV_SEARCH_BTN.className = "text-sm font-semibold text-cyan-400 border-b-2 border-cyan-400"
+  NAV_PROFILE_BTN.className = "text-sm font-md text-slate-400"
+
+  SEARCH_SECTION.classList.replace("hidden", "block")
+  PROFILE_SECTION.classList.replace("block", "hidden")
+
+  searchMasters(SEARCH_INPUT.value.trim() || "daft punk")
+})
+
+SEARCH_BTN.addEventListener("click", () => {
+  const query = SEARCH_INPUT.value.trim()
+  if (query) searchMasters(query)
+})
+
+SEARCH_INPUT.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    const query = SEARCH_INPUT.value.trim()
+    if (query) searchMasters(query)
+  }
+})
 
 
-
-
-
-
-searchMasters("daft punk")
-
+searchMasters(SEARCH_INPUT.value.trim() || "daft punk")
 
 
 
